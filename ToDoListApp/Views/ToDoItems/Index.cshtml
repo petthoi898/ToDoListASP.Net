@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ToDoListApp.Models.ToDoItem>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+
+<body>
+    <form method="post" align="center">
+        <fieldset>
+            <div>
+                <label for="content"></label>
+                <input class="fontAwesome" type="text" name="content" placeholder="Add a task" size="50" />
+            </div>
+
+        </fieldset>
+    </form>
+</body>
+
+
+<table class="table">
+    <colgroup>
+        <col span="1" style="width: 10%;">
+        <col span="1" style="width: 70%;">
+        <col span="1" style="width: 10%;">
+        <col span="1" style="width: 10%;">
+    </colgroup>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (!item.isCompleted)
+                {
+                    <a href="@Url.Action("Completed", "ToDoItems", new { @id = item.id})" class="btn align-content-lg-start">
+                        <i class="far fa-circle"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Completed", "ToDoItems", new { @id = item.id})" class="btn align-content-lg-start">
+                        <i class="far fa-check-circle"></i>
+                    </a>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.content)
+            </td>
+            <td>
+                @if (!item.isImportant)
+                {
+                    <a href="@Url.Action("Important", "ToDoItems", new { @id = item.id})" class="btn align-content-lg-end">
+                        <i class="far fa-star"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Important", "ToDoItems", new { @id = item.id})" class="btn align-content-lg-end">
+                        <i class="fas fa-star"></i>
+                    </a>
+                }
+            </td>
+            <td>
+                <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="@Url.Action("Edit", "ToDoItems",  new { @id = item.id})">Edit</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Delete", "ToDoItems",  new { @id = item.id})">Remove</a></li>
+                </ul>
+            </td>
+        </tr>
+    }
+
+</table>
